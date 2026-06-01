@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eclipse — Cybersecurity for Indian D2C Brands</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080810;
+  --surface:#0f0f1a;
+  --surface2:#16162a;
+  --border:#1e1e38;
+  --accent:#e8503a;
+  --accent2:#7c6af7;
+  --text:#e8e6f0;
+  --muted:#6b6880;
+  --green:#1db87a;
+  --font-head:'Syne',sans-serif;
+  --font-mono:'DM Mono',monospace;
+  --font-body:'DM Sans',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.7;overflow-x:hidden}
+
+/* noise overlay */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");opacity:.4;pointer-events:none;z-index:0}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 40px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid transparent;transition:all .3s}
+nav.scrolled{background:rgba(8,8,16,.92);backdrop-filter:blur(12px);border-color:var(--border)}
+.nav-logo{font-family:var(--font-head);font-size:20px;font-weight:800;letter-spacing:-.5px;color:var(--text)}
+.nav-logo span{color:var(--accent)}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:14px;font-family:var(--font-mono);transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.nav-cta{background:var(--accent);color:#fff;border:none;padding:10px 22px;border-radius:6px;font-family:var(--font-head);font-weight:600;font-size:14px;cursor:pointer;transition:opacity .2s;text-decoration:none}
+.nav-cta:hover{opacity:.85}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;padding:120px 40px 80px;position:relative;overflow:hidden}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:60px 60px;opacity:.3;mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,black,transparent)}
+.hero-glow{position:absolute;top:-200px;right:-100px;width:600px;height:600px;background:radial-gradient(circle,rgba(124,106,247,.12) 0%,transparent 70%);pointer-events:none}
+.hero-glow2{position:absolute;bottom:-100px;left:-100px;width:400px;height:400px;background:radial-gradient(circle,rgba(232,80,58,.08) 0%,transparent 70%);pointer-events:none}
+.hero-content{position:relative;z-index:1;max-width:780px}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(29,184,122,.1);border:1px solid rgba(29,184,122,.25);color:var(--green);font-family:var(--font-mono);font-size:12px;padding:6px 14px;border-radius:100px;margin-bottom:32px}
+.hero-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+h1{font-family:var(--font-head);font-size:clamp(42px,6vw,80px);font-weight:800;line-height:1.05;letter-spacing:-2px;margin-bottom:24px}
+h1 .line2{color:var(--accent)}
+h1 .line3{color:var(--accent2)}
+.hero-sub{font-size:18px;color:var(--muted);max-width:520px;margin-bottom:40px;line-height:1.7;font-weight:300}
+.hero-actions{display:flex;gap:16px;flex-wrap:wrap}
+.btn-primary{background:var(--accent);color:#fff;padding:14px 28px;border-radius:8px;font-family:var(--font-head);font-weight:700;font-size:15px;text-decoration:none;transition:all .2s;display:inline-block}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(232,80,58,.3)}
+.btn-ghost{border:1px solid var(--border);color:var(--muted);padding:14px 28px;border-radius:8px;font-family:var(--font-head);font-weight:600;font-size:15px;text-decoration:none;transition:all .2s;display:inline-block}
+.btn-ghost:hover{border-color:var(--muted);color:var(--text)}
+.hero-stats{display:flex;gap:48px;margin-top:64px;padding-top:40px;border-top:1px solid var(--border)}
+.stat-item{}
+.stat-val{font-family:var(--font-head);font-size:32px;font-weight:800;color:var(--text)}
+.stat-val span{color:var(--accent)}
+.stat-label{font-size:13px;color:var(--muted);font-family:var(--font-mono);margin-top:2px}
+
+/* BREACH TICKER */
+.ticker{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:14px 0;overflow:hidden;position:relative}
+.ticker-inner{display:flex;gap:64px;animation:scroll 25s linear infinite;white-space:nowrap}
+@keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.ticker-item{font-family:var(--font-mono);font-size:12px;color:var(--muted);display:flex;align-items:center;gap:10px;flex-shrink:0}
+.ticker-item .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0}
+
+/* SECTIONS */
+section{padding:100px 40px;position:relative}
+.section-tag{font-family:var(--font-mono);font-size:12px;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px}
+h2{font-family:var(--font-head);font-size:clamp(32px,4vw,52px);font-weight:800;letter-spacing:-1.5px;line-height:1.1;margin-bottom:20px}
+.section-sub{font-size:17px;color:var(--muted);max-width:500px;line-height:1.7;font-weight:300}
+.container{max-width:1100px;margin:0 auto}
+
+/* WHY SECTION */
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:64px;border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.why-card{padding:40px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);transition:background .2s}
+.why-card:hover{background:var(--surface)}
+.why-card:nth-child(2n){border-right:none}
+.why-card:nth-child(3),.why-card:nth-child(4){border-bottom:none}
+.why-icon{font-family:var(--font-mono);font-size:11px;color:var(--accent);letter-spacing:.1em;margin-bottom:20px;display:flex;align-items:center;gap:8px}
+.why-icon::before{content:'';width:20px;height:1px;background:var(--accent)}
+.why-card h3{font-family:var(--font-head);font-size:20px;font-weight:700;margin-bottom:12px;letter-spacing:-.5px}
+.why-card p{font-size:14px;color:var(--muted);line-height:1.7}
+
+/* SERVICES */
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:64px}
+.service-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:32px;position:relative;overflow:hidden;transition:all .25s;cursor:default}
+.service-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(124,106,247,.06),transparent);opacity:0;transition:opacity .25s}
+.service-card:hover{border-color:var(--accent2);transform:translateY(-4px)}
+.service-card:hover::before{opacity:1}
+.service-card.featured{border-color:var(--accent);background:linear-gradient(135deg,rgba(232,80,58,.08),var(--surface))}
+.service-card.featured::after{content:'MOST POPULAR';position:absolute;top:16px;right:16px;font-family:var(--font-mono);font-size:9px;letter-spacing:.1em;color:var(--accent);background:rgba(232,80,58,.15);padding:4px 8px;border-radius:4px}
+.service-num{font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-bottom:20px}
+.service-card h3{font-family:var(--font-head);font-size:22px;font-weight:700;letter-spacing:-.5px;margin-bottom:8px}
+.service-price{font-family:var(--font-mono);font-size:13px;color:var(--accent);margin-bottom:20px}
+.service-card ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.service-card ul li{font-size:13px;color:var(--muted);display:flex;align-items:flex-start;gap:10px;line-height:1.5}
+.service-card ul li::before{content:'→';color:var(--accent2);flex-shrink:0;font-family:var(--font-mono)}
+
+/* PROOF */
+.proof-section{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.breach-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
+.breach-card{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:24px}
+.breach-brand{font-family:var(--font-head);font-size:16px;font-weight:700;margin-bottom:6px}
+.breach-stat{font-family:var(--font-mono);font-size:22px;font-weight:500;color:var(--accent);margin-bottom:8px}
+.breach-desc{font-size:13px;color:var(--muted);line-height:1.6}
+.breach-year{font-family:var(--font-mono);font-size:11px;color:var(--muted);margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+
+/* PROCESS */
+.process-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:64px;position:relative}
+.process-steps::before{content:'';position:absolute;top:28px;left:10%;right:10%;height:1px;background:var(--border);z-index:0}
+.step{text-align:center;position:relative;z-index:1;padding:0 16px}
+.step-num{width:56px;height:56px;border-radius:50%;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-family:var(--font-mono);font-size:14px;color:var(--accent);font-weight:500}
+.step h3{font-family:var(--font-head);font-size:16px;font-weight:700;margin-bottom:8px;letter-spacing:-.3px}
+.step p{font-size:13px;color:var(--muted);line-height:1.6}
+
+/* PRICING */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:64px}
+.price-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:36px;position:relative}
+.price-card.featured{border-color:var(--accent2);background:linear-gradient(160deg,rgba(124,106,247,.1),var(--surface))}
+.price-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent2);color:#fff;font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;padding:4px 14px;border-radius:100px;white-space:nowrap}
+.price-tier{font-family:var(--font-mono);font-size:12px;color:var(--muted);margin-bottom:12px}
+.price-card h3{font-family:var(--font-head);font-size:24px;font-weight:800;letter-spacing:-.5px;margin-bottom:4px}
+.price-amount{font-family:var(--font-head);font-size:36px;font-weight:800;color:var(--text);margin:16px 0 4px}
+.price-amount span{font-size:16px;font-weight:400;color:var(--muted)}
+.price-note{font-size:12px;color:var(--muted);font-family:var(--font-mono);margin-bottom:28px}
+.price-divider{height:1px;background:var(--border);margin:24px 0}
+.price-features{list-style:none;display:flex;flex-direction:column;gap:12px}
+.price-features li{font-size:13px;color:var(--muted);display:flex;gap:10px;align-items:flex-start;line-height:1.5}
+.price-features li .check{color:var(--green);flex-shrink:0}
+.price-cta{display:block;text-align:center;margin-top:28px;padding:12px;border-radius:8px;font-family:var(--font-head);font-weight:700;font-size:14px;text-decoration:none;transition:all .2s}
+.price-cta-outline{border:1px solid var(--border);color:var(--muted)}
+.price-cta-outline:hover{border-color:var(--text);color:var(--text)}
+.price-cta-filled{background:var(--accent2);color:#fff}
+.price-cta-filled:hover{opacity:.85}
+
+/* CTA */
+.cta-section{text-align:center;padding:120px 40px}
+.cta-box{max-width:640px;margin:0 auto;background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:64px 48px;position:relative;overflow:hidden}
+.cta-box::before{content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:300px;height:300px;background:radial-gradient(circle,rgba(124,106,247,.15),transparent 70%);pointer-events:none}
+.cta-box h2{font-size:clamp(28px,4vw,42px);margin-bottom:16px;position:relative}
+.cta-box p{color:var(--muted);margin-bottom:32px;font-size:16px;position:relative}
+.cta-input-row{display:flex;gap:8px;position:relative}
+.cta-input{flex:1;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:14px 18px;border-radius:8px;font-family:var(--font-body);font-size:14px;outline:none;transition:border-color .2s}
+.cta-input:focus{border-color:var(--accent2)}
+.cta-input::placeholder{color:var(--muted)}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:40px;display:flex;align-items:center;justify-content:space-between}
+.footer-logo{font-family:var(--font-head);font-size:18px;font-weight:800;letter-spacing:-.5px}
+.footer-logo span{color:var(--accent)}
+.footer-copy{font-family:var(--font-mono);font-size:12px;color:var(--muted)}
+.footer-links{display:flex;gap:24px}
+.footer-links a{font-family:var(--font-mono);font-size:12px;color:var(--muted);text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:var(--text)}
+
+/* ANIMATIONS */
+.fade-up{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.fade-up.visible{opacity:1;transform:translateY(0)}
+
+@media(max-width:768px){
+  nav{padding:16px 20px}
+  .nav-links{display:none}
+  .hero{padding:100px 20px 60px}
+  .hero-stats{gap:28px;flex-wrap:wrap}
+  section{padding:60px 20px}
+  .why-grid,.services-grid,.breach-cards,.process-steps,.pricing-grid{grid-template-columns:1fr}
+  .why-card{border-right:none}
+  .cta-box{padding:40px 24px}
+  .cta-input-row{flex-direction:column}
+  footer{flex-direction:column;gap:20px;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-logo">Eclipse<span></div>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#proof">Why now</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Get a free audit</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-content">
+    <div class="hero-tag">India's first cybersecurity firm built for D2C brands</div>
+    <h1>
+      Your brand took<br>
+      <span class="line2">years to build.</span><br>
+      <span class="line3">A breach ends it.</span>
+    </h1>
+    <p class="hero-sub">We protect Indian D2C and e-commerce brands from data breaches, payment fraud, and DPDPA fines — at a price that actually makes sense for growing businesses.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Get your free security audit →</a>
+      <a href="#services" class="btn-ghost">See what we do</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-val">₹250<span>Cr</span></div>
+        <div class="stat-label">// max DPDPA fine</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val">7.5<span>M</span></div>
+        <div class="stat-label">// boAt records stolen</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val">83<span>%</span></div>
+        <div class="stat-label">// brands not compliant</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <div class="ticker-item"><span class="dot"></span>boAt — 7.5M customer records stolen — 2024</div>
+    <div class="ticker-item"><span class="dot"></span>DPDPA fines up to ₹250 crore per violation</div>
+    <div class="ticker-item"><span class="dot"></span>83% of Indian businesses not DPDPA compliant</div>
+    <div class="ticker-item"><span class="dot"></span>Magecart skimming attacks hit Indian e-commerce stores daily</div>
+    <div class="ticker-item"><span class="dot"></span>Average breach cost in India: ₹22 crore — IBM 2025</div>
+    <div class="ticker-item"><span class="dot"></span>Full DPDPA enforcement: May 2027 — are you ready?</div>
+    <div class="ticker-item"><span class="dot"></span>boAt — 7.5M customer records stolen — 2024</div>
+    <div class="ticker-item"><span class="dot"></span>DPDPA fines up to ₹250 crore per violation</div>
+    <div class="ticker-item"><span class="dot"></span>83% of Indian businesses not DPDPA compliant</div>
+    <div class="ticker-item"><span class="dot"></span>Magecart skimming attacks hit Indian e-commerce stores daily</div>
+    <div class="ticker-item"><span class="dot"></span>Average breach cost in India: ₹22 crore — IBM 2025</div>
+    <div class="ticker-item"><span class="dot"></span>Full DPDPA enforcement: May 2027 — are you ready?</div>
+  </div>
+</div>
+
+<!-- WHY -->
+<section id="why">
+  <div class="container fade-up">
+    <p class="section-tag">// the problem</p>
+    <h2>D2C brands are the<br>perfect target.</h2>
+    <p class="section-sub">You collect customer names, addresses, phone numbers, and payment data at scale — with startup-level security. That gap is expensive.</p>
+    <div class="why-grid" style="margin-top:48px">
+      <div class="why-card">
+        <div class="why-icon">01 — BREACH RISK</div>
+        <h3>Your Shopify store has gaps you don't know about</h3>
+        <p>Misconfigured admin panels, exposed APIs, weak passwords on team accounts — these are the top 3 entry points attackers use against Indian e-commerce stores. We find them before attackers do.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">02 — LEGAL RISK</div>
+        <h3>DPDPA fines can shut you down</h3>
+        <p>India's new data protection law carries fines up to ₹250 crore. Full enforcement hits May 2027. If you collect customer data — and every D2C brand does — you're legally required to protect it.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">03 — BRAND RISK</div>
+        <h3>One breach headline undoes years of trust</h3>
+        <p>boAt lost 7.5 million records. The news cycle destroyed their customer trust overnight. A small D2C brand with 10,000 customers losing their data has no PR team to manage the fallout.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">04 — THE GAP</div>
+        <h3>Enterprise firms won't serve you at your size</h3>
+        <p>Big cybersecurity firms charge ₹10–20 lakh minimum. You're invisible to them. We built Eclipse specifically for growing D2C brands — real protection at a price that fits your stage.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="container fade-up">
+    <p class="section-tag">// what we do</p>
+    <h2>Three ways we protect<br>your brand.</h2>
+    <p class="section-sub">From a quick health check to full ongoing protection — pick the level that fits where you are.</p>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-num">// 01</div>
+        <h3>Security Snapshot</h3>
+        <p class="service-price">₹5,000 – ₹12,000 · one-time</p>
+        <ul>
+          <li>15-point security audit of your store</li>
+          <li>Admin panel and login security check</li>
+          <li>Customer data exposure scan</li>
+          <li>Payment gateway configuration review</li>
+          <li>Traffic-light report with priority fix list</li>
+          <li>30-minute debrief call</li>
+        </ul>
+      </div>
+      <div class="service-card featured">
+        <div class="service-num">// 02</div>
+        <h3>Brand Shield Setup</h3>
+        <p class="service-price">₹20,000 – ₹45,000 · one-time</p>
+        <ul>
+          <li>Everything in Security Snapshot</li>
+          <li>Cloudflare + SSL setup and hardening</li>
+          <li>2FA implementation across all accounts</li>
+          <li>DPDPA-compliant privacy policy drafted</li>
+          <li>Breach response SOP for your team</li>
+          <li>Staff security awareness session (1 hr)</li>
+          <li>Compliance certificate for display</li>
+        </ul>
+      </div>
+      <div class="service-card">
+        <div class="service-num">// 03</div>
+        <h3>Security Retainer</h3>
+        <p class="service-price">₹4,000 – ₹8,000/month · ongoing</p>
+        <ul>
+          <li>Monthly security monitoring</li>
+          <li>Malware and uptime alerts</li>
+          <li>Quarterly re-audit as you grow</li>
+          <li>DPDPA policy updates as law evolves</li>
+          <li>One incident response call/month</li>
+          <li>Monthly 1-page security report</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF -->
+<section id="proof" class="proof-section">
+  <div class="container fade-up">
+    <p class="section-tag">// why now</p>
+    <h2>Indian brands are<br>getting hit hard.</h2>
+    <p class="section-sub">These are real breaches. Real brands. Real consequences. Yours could be next — or not, if you act first.</p>
+    <div class="breach-cards">
+      <div class="breach-card">
+        <div class="breach-brand">boAt Lifestyle</div>
+        <div class="breach-stat">7.5M records</div>
+        <p class="breach-desc">Customer names, addresses, phone numbers, and purchase histories exposed. Data listed for sale on dark web forums.</p>
+        <div class="breach-year">// 2024 · Consumer electronics D2C</div>
+      </div>
+      <div class="breach-card">
+        <div class="breach-brand">DPDPA Enforcement</div>
+        <div class="breach-stat">₹250Cr fine</div>
+        <p class="breach-desc">Maximum penalty per violation under India's new data protection law. Full enforcement begins May 2027. Most businesses are not ready.</p>
+        <div class="breach-year">// 2025 Rules notified · All sectors</div>
+      </div>
+      <div class="breach-card">
+        <div class="breach-brand">Indian E-commerce</div>
+        <div class="breach-stat">₹22Cr avg cost</div>
+        <p class="breach-desc">Average cost of a data breach in India in 2025, covering detection, containment, recovery, legal costs and business loss.</p>
+        <div class="breach-year">// IBM Cost of Breach Report 2025</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="container fade-up">
+    <p class="section-tag">// how it works</p>
+    <h2>From zero to protected<br>in 2 weeks.</h2>
+    <p class="section-sub">No jargon. No unnecessary complexity. Just a clear process that gets you protected fast.</p>
+    <div class="process-steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Free 30-min call</h3>
+        <p>We learn about your store, your stack, and your biggest worries. No sales pitch — just honest assessment.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>Security audit</h3>
+        <p>We scan and manually test your store for the 15 most common vulnerabilities Indian D2C brands face.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>Clear report</h3>
+        <p>You get a plain-English PDF — red, orange, green — with exactly what needs fixing and in what order.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <h3>We fix it</h3>
+        <p>We implement the fixes, set up ongoing monitoring, and make sure your team knows what to do if something happens.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" style="background:var(--surface);border-top:1px solid var(--border)">
+  <div class="container fade-up">
+    <p class="section-tag">// pricing</p>
+    <h2>Simple, transparent<br>pricing.</h2>
+    <p class="section-sub">No enterprise contracts. No hidden fees. No USD pricing that makes no sense for an Indian business.</p>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-tier">// starter</div>
+        <h3>Snapshot</h3>
+        <div class="price-amount">₹8,000<span> one-time</span></div>
+        <p class="price-note">Best for: brands just getting started with security</p>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li><span class="check">✓</span>15-point security audit</li>
+          <li><span class="check">✓</span>Traffic-light PDF report</li>
+          <li><span class="check">✓</span>Priority fix list</li>
+          <li><span class="check">✓</span>30-min debrief call</li>
+        </ul>
+        <a href="#contact" class="price-cta price-cta-outline">Get started</a>
+      </div>
+      <div class="price-card featured">
+        <div class="price-badge">Most popular</div>
+        <div class="price-tier">// complete</div>
+        <h3>Brand Shield</h3>
+        <div class="price-amount">₹30,000<span> one-time</span></div>
+        <p class="price-note">Best for: growing brands that want full protection</p>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li><span class="check">✓</span>Everything in Snapshot</li>
+          <li><span class="check">✓</span>Cloudflare + SSL hardening</li>
+          <li><span class="check">✓</span>DPDPA privacy policy drafted</li>
+          <li><span class="check">✓</span>Breach response SOP</li>
+          <li><span class="check">✓</span>Staff training session</li>
+          <li><span class="check">✓</span>Compliance certificate</li>
+        </ul>
+        <a href="#contact" class="price-cta price-cta-filled">Get started</a>
+      </div>
+      <div class="price-card">
+        <div class="price-tier">// ongoing</div>
+        <h3>Retainer</h3>
+        <div class="price-amount">₹5,000<span>/month</span></div>
+        <p class="price-note">Best for: brands that want continuous protection</p>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li><span class="check">✓</span>Monthly monitoring</li>
+          <li><span class="check">✓</span>Malware + uptime alerts</li>
+          <li><span class="check">✓</span>Quarterly re-audits</li>
+          <li><span class="check">✓</span>DPDPA policy updates</li>
+          <li><span class="check">✓</span>Monthly security report</li>
+          <li><span class="check">✓</span>Incident response support</li>
+        </ul>
+        <a href="#contact" class="price-cta price-cta-outline">Get started</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="contact" class="cta-section">
+  <div class="cta-box fade-up">
+    <h2>Get your free<br>security audit.</h2>
+    <p>Takes 30 minutes. We'll tell you exactly where your store is vulnerable — no strings attached.</p>
+    <div class="cta-input-row">
+      <input class="cta-input" type="email" placeholder="your@email.com">
+      <a href="mailto:your@email.com" class="btn-primary" style="white-space:nowrap">Book free audit →</a>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-top:14px;font-family:var(--font-mono)">// no spam. no sales calls. just honest advice.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Shield<span>Ops</span></div>
+  <div class="footer-links">
+    <a href="#services">Services</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="footer-copy">// built for Indian D2C brands</div>
+</footer>
+
+<script>
+// Nav scroll effect
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+});
+
+// Fade in on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
